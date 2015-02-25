@@ -36,7 +36,7 @@
         {
           xhttp = new ActiveXObject("Msxml2.XMLHTTP");
         }
-        else 
+        else
         {
           xhttp = new XMLHttpRequest();
         }
@@ -78,7 +78,7 @@
         if (el.opened){
           setTimeout(function(){el.style.height = "auto";},0);
         }
-        if (el.callback){ 
+        if (el.callback){
           el.callback();
           el.callback = null;
         }
@@ -102,21 +102,21 @@
           xsltProcessor.importStylesheet(xsl);
           resultDocument = xsltProcessor.transformToFragment(xml, document);
           document.getElementById("example").appendChild(resultDocument);
-          foreach(document.getElementsByClassName('grammar'),function(el){addGrammar(el.getAttribute('href'),'xsd.xsl');});
-          foreach(document.getElementsByClassName('schema_def'),function(el){
-            var target = el.getAttribute('target');
-            var content = el.innerHTML;
-            foreach(document.getElementsByClassName(target),function(el){
-              el.innerHTML += content;
-              foreach(el.getElementsByClassName('schema_link'),function(el){el.className+=" active_schema_link";});
-            });
-          });
-          foreach(document.getElementsByClassName('active_schema_link'),function(el){el.onclick=function(){slideToggle(this,'model-signature');}});
-          foreach(document.getElementsByClassName('slider'),function(el){
-            el.addEventListener('webkitTransitionEnd',function(){endTransition(el);});
-            el.addEventListener('transitionend',function(){endTransition(el);});
-          });
         }
+        foreach(document.getElementsByClassName('grammar'),function(el){addGrammar(el.getAttribute('href'),'xsd.xsl');});
+        foreach(document.getElementsByClassName('schema_def'),function(el){
+          var target = el.getAttribute('target');
+          var content = el.innerHTML;
+          foreach(document.getElementsByClassName(target),function(el){
+            el.innerHTML += content;
+            foreach(el.getElementsByClassName('schema_link'),function(el){el.className+=" active_schema_link";});
+          });
+        });
+        foreach(document.getElementsByClassName('active_schema_link'),function(el){el.onclick=function(){slideToggle(this,'model-signature');}});
+        foreach(document.getElementsByClassName('slider'),function(el){
+          el.addEventListener('webkitTransitionEnd',function(){endTransition(el);});
+          el.addEventListener('transitionend',function(){endTransition(el);});
+        });
       }
 
       function addGrammar(xmlGrammarDoc, xslGrammarDoc)
@@ -127,6 +127,7 @@
         if (window.ActiveXObject || xhttp.responseType == "msxml-document")
         {
           ex = xmlGrammar.transformNode(xslGrammar);
+          document.getElementById("grammars").innerHTML = ex;
         }
         // code for Chrome, Firefox, Opera, etc.
         else if (document.implementation && document.implementation.createDocument)
@@ -134,8 +135,8 @@
           xsltProcessor = new XSLTProcessor();
           xsltProcessor.importStylesheet(xslGrammar);
           resultDocument = xsltProcessor.transformToFragment(xmlGrammar, document);
+          document.getElementById('grammars').appendChild(resultDocument);
         }
-        document.getElementById('grammars').appendChild(resultDocument);
       }
     </script>
   </head>
